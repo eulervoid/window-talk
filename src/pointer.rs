@@ -64,15 +64,4 @@ impl Pointer {
             Pointer::Moving { to: _, from: _, t } => (1.0 - t) <= 0.01,
         }
     }
-
-    fn points(w: f32, h: f32) -> Vec<Point2> {
-        vec![
-            Point2::from((-2.5, 0.0)),
-            Point2::from((0.0, 5.0)),
-            Point2::from((2.5, 0.0)),
-            Point2::from((0.7, 0.0)),
-            Point2::from((0.7, -2.0)),
-            Point2::from((-0.7, 0.0)),
-        ]
-    }
 }
