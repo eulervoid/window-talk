@@ -15,7 +15,7 @@ struct Model {
     windows: Vec<(Rect, String)>,
     pointer: Pointer,
     metro: Metronome,
-    apercu: Font,
+    font: Font,
     words: std::iter::Cycle<std::slice::Iter<'static, &'static str>>,
 }
 
@@ -32,10 +32,10 @@ impl Metronome {
 }
 
 fn model(app: &App) -> Model {
-    app.set_loop_mode(LoopMode::rate_fps(60.0));
+    app.set_loop_mode(LoopMode::rate_fps(30.0));
     // load font
-    let font_data: &[u8] = include_bytes!("../duospace-regular.ttf");
-    let apercu = Font::from_bytes(font_data).unwrap();
+    let font_data: &[u8] = include_bytes!("../font/iawriter-duospace-regular.ttf");
+    let font = Font::from_bytes(font_data).unwrap();
 
     Model {
         _window: app
@@ -50,35 +50,20 @@ fn model(app: &App) -> Model {
             count: 0,
             every: 30,
         },
-        apercu: apercu,
+        font: font,
         words: [
             "hello",
-            "there",
             "please",
             "follow",
             "me",
             "on",
-            "instagram",
+            "social",
+            "media",
+            "@eulervoid",
             "i",
             "need",
             "your",
             "clicks",
-            "and",
-            "likes",
-            "and",
-            "shares",
-            "and",
-            "actually",
-            "some",
-            "comments",
-            "would",
-            "also",
-            "be",
-            "wonderful",
-            "thank",
-            "you",
-            "very",
-            "much",
         ]
         .iter()
         .cycle(),
@@ -152,7 +137,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         draw.text(t)
             .color(WHITE)
             .font_size(48)
-            .font(model.apercu.clone())
+            .font(model.font.clone())
             .x_y(w.x(), w.y() + 10.0)
             .wh(w.wh());
     }
@@ -163,14 +148,17 @@ fn view(app: &App, model: &Model, frame: Frame) {
         .weight(4.5)
         .points(pointer_pos + Vector2 { x: 15.0, y: -25.0 }, pointer_pos)
         .color(RED);
+
     // render frame
     draw.to_frame(app, &frame).unwrap();
-    // capture frames to pngs
-    //let file_path = captured_frame_path(app, &frame);
-    //app.main_window().capture_frame(file_path);
+
+    // uncomment to capture frames as pngs
+    // let file_path = captured_frame_path(app, &frame);
+    // app.main_window().capture_frame(file_path);
 }
 
-fn _captured_frame_path(app: &App, frame: &Frame) -> std::path::PathBuf {
+#[allow(unused)]
+fn captured_frame_path(app: &App, frame: &Frame) -> std::path::PathBuf {
     app.project_path()
         .expect("failed to locate `project_path`")
         .join("frames")
